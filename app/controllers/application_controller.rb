@@ -31,22 +31,20 @@ class ApplicationController < Sinatra::Base
     erb :show
   end
 
-  get '/artciles/:id/edit' do
-    @article = Article.find_by_id(params[:id])
+  get '/articles/:id/edit' do
+    @article = Article.find(params[:id])
     erb :edit
   end
 
   patch '/articles/:id' do
     @article = Article.find_by_id(params[:id])
-    @article.title = params[:title]
-    @article.content = params[:content]
-    @article.save "/articles/#{@article.id}"
+    @article.update(params[:article])
+    redirect to "/articles/#{ @article.id }"
   end
 
   delete '/articles/:id' do
     @article = Article.find_by_id(params[:id])
     @article.delete
-    binding.pry 
     redirect to '/articles'
   end
 
